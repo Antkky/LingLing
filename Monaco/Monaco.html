@@ -102,6 +102,7 @@
             var SetScroll;
             var ShowErr;
             var Refresh;
+            var SaveState;
 
             // Enablers
             var SwitchMinimap;
@@ -388,7 +389,7 @@
                     tabCount += 1;
                     const newTabId = `tab-${tabCount}`;
                     createTab(newTabId, `Tab ${tabCount}`, "", true);
-                    saveTabs(); // Save changes
+                    saveTabs();
                 });
 
                 loadTabs();
@@ -572,6 +573,10 @@
                     var text = getText();
                     setText("");
                     editor.trigger("keyboard", "type", { text: text });
+                };
+
+                SaveState = function () {
+                    saveTabs();
                 };
             });
         </script>
