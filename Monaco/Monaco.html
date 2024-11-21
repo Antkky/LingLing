@@ -195,6 +195,25 @@
                     },
                 });
 
+                function flattenLuaCode(luaCode) {
+                    // Trim leading/trailing spaces and newlines
+                    let flattenedCode = luaCode.trim();
+
+                    // Replace all multiple spaces/tabs/newlines with a single space
+                    flattenedCode = flattenedCode.replace(/\s+/g, " ");
+
+                    // Ensure proper spacing after keywords that need it (e.g., after `if`, `then`, `end`, etc.)
+                    flattenedCode = flattenedCode.replace(
+                        /(if|then|else|elseif|end|for|do|while|repeat|until|function|local|return)\s+/g,
+                        "$1 "
+                    );
+
+                    // Optionally, remove some more specific Lua-specific unnecessary characters like comments
+                    flattenedCode = flattenedCode.replace(/--.*?(\n|$)/g, ""); // Remove single-line comments
+
+                    return flattenedCode;
+                }
+
                 function getDependencyProposals() {
                     return Proposals;
                 }
@@ -402,11 +421,11 @@
                 };
 
                 GetText = function () {
-                    return editor.getValue();
+                    return editorInstance.getValue();
                 };
 
                 SetText = function (x) {
-                    editor.setValue(x);
+                    editorInstance.setValue(x);
                 };
 
                 SwitchReadonly = function (flag) {
